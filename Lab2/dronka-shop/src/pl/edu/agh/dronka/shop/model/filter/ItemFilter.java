@@ -4,32 +4,28 @@ import pl.edu.agh.dronka.shop.model.Item;
 
 public class ItemFilter {
 
-	private Item itemSpec = new Item();
+	private FilterSpecification filter = new FilterSpecification();
 
-	public Item getItemSpec() {
-		return itemSpec;
+	public FilterSpecification getFilterSpec() {
+		return filter;
 	}
 	public boolean appliesTo(Item item) {
-		if (itemSpec.getName() != null
-				&& !itemSpec.getName().equals(item.getName())) {
-			return false;
-		}
-		if (itemSpec.getCategory() != null
-				&& !itemSpec.getCategory().equals(item.getCategory())) {
+		if (filter.getCategory() != null
+				&& !filter.getCategory().equals(item.getCategory())) {
 			return false;
 		}
 
 		// applies filter only if the flag (secondHand) is true)
-		if (itemSpec.isSecondhand() && !item.isSecondhand()) {
+		if (filter.isSecondhand() && !item.isSecondhand()) {
 			return false;
 		}
 
 		// applies filter only if the flag (polish) is true)
-		if (itemSpec.isPolish() && !item.isPolish()) {
+		if (filter.isPolish() && !item.isPolish()) {
 			return false;
 		}
 
-		return true;
+		return item.hasAdditionalProperties(filter);
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import pl.edu.agh.dronka.shop.controller.ShopController;
+import pl.edu.agh.dronka.shop.model.Category;
 import pl.edu.agh.dronka.shop.model.filter.ItemFilter;
 
 public class PropertiesPanel extends JPanel {
@@ -22,15 +23,15 @@ public class PropertiesPanel extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 	}
 
-	public void fillProperties() {
+	public void fillProperties(Category category) {
 		removeAll();
 
-		filter.getItemSpec().setCategory(shopController.getCurrentCategory());
+		filter.getFilterSpec().setCategory(shopController.getCurrentCategory());
 		add(createPropertyCheckbox("Tanie bo polskie", new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				filter.getItemSpec().setPolish(
+				filter.getFilterSpec().setPolish(
 						((JCheckBox) event.getSource()).isSelected());
 				shopController.filterItems(filter);
 			}
@@ -40,11 +41,62 @@ public class PropertiesPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				filter.getItemSpec().setSecondhand(
+				filter.getFilterSpec().setSecondhand(
 						((JCheckBox) event.getSource()).isSelected());
 				shopController.filterItems(filter);
 			}
 		}));
+
+		switch(category) {
+			case BOOKS: {
+				add(createPropertyCheckbox("Twarda oprawa", new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						filter.getFilterSpec().setHardcover(
+								((JCheckBox) event.getSource()).isSelected());
+						shopController.filterItems(filter);
+					}
+				}));
+				break;
+			}
+			case ELECTRONICS: {
+				add(createPropertyCheckbox("Mobilny", new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						filter.getFilterSpec().setMobile(
+								((JCheckBox) event.getSource()).isSelected());
+						shopController.filterItems(filter);
+					}
+				}));
+				add(createPropertyCheckbox("Gwarancja", new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						filter.getFilterSpec().setWarranty(
+								((JCheckBox) event.getSource()).isSelected());
+						shopController.filterItems(filter);
+					}
+				}));
+				break;
+			}
+			case FOOD, SPORT: {
+				break;
+			}
+			case MUSIC: {
+				add(createPropertyCheckbox("Dołączone wideo", new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						filter.getFilterSpec().setVideoAdded(
+								((JCheckBox) event.getSource()).isSelected());
+						shopController.filterItems(filter);
+					}
+				}));
+				break;
+			}
+		}
 
 	}
 

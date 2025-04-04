@@ -1,6 +1,10 @@
 package pl.edu.agh.dronka.shop.model;
 
-public class Item {
+import pl.edu.agh.dronka.shop.model.filter.FilterSpecification;
+
+import java.util.Map;
+
+public abstract class Item {
 
 	private String name;
 
@@ -63,6 +67,10 @@ public class Item {
 	public boolean isPolish() {
 		return polish;
 	}
+
+	public abstract Map<String, Object> getAdditionalPropertiesMap();
+
+	public abstract boolean hasAdditionalProperties(FilterSpecification filter);
 
 	@Override
 	public String toString() {

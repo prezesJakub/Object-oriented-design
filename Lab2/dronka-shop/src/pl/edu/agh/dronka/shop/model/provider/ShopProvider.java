@@ -78,12 +78,14 @@ public class ShopProvider {
 						dataLine, "Tanie bo polskie"));
 				boolean isSecondhand = Boolean.parseBoolean(reader.getValue(
 						dataLine, "Używany"));
-				Item item = new Item(name, category, price, quantity);
+
+				Provider provider = ProviderBuilder.getProvider(category);
+
+				Item item = provider.createItem(name, category, price, quantity, dataLine, reader);
 				item.setPolish(isPolish);
 				item.setSecondhand(isSecondhand);
 
 				items.add(item);
-
 			}
 
 		} catch (IOException e) {

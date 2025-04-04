@@ -16,7 +16,8 @@ public class PropertiesHelper {
 		propertiesMap.put("Ilość", Integer.toString(item.getQuantity()));
 		propertiesMap.put("Tanie bo polskie", item.isPolish());
 		propertiesMap.put("Używany", item.isSecondhand());
-		
+		Map<String, Object> additionalPropertiesMap = item.getAdditionalPropertiesMap();
+		propertiesMap.putAll(additionalPropertiesMap);
 		return propertiesMap;
 	}
 }

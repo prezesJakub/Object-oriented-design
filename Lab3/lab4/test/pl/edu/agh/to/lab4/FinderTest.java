@@ -3,13 +3,17 @@ package pl.edu.agh.to.lab4;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import pl.edu.agh.to.lab4.providers.PersonDataProvider;
+import pl.edu.agh.to.lab4.providers.PrisonersDataProvider;
+import pl.edu.agh.to.lab4.search.NameSearchStrategy;
+import pl.edu.agh.to.lab4.suspect.CracovCitizen;
+import pl.edu.agh.to.lab4.suspect.Prisoner;
+import pl.edu.agh.to.lab4.util.CompositeAggregate;
+import pl.edu.agh.to.lab4.util.Finder;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

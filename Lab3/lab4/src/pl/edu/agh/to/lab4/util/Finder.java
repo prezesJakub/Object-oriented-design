@@ -1,6 +1,9 @@
-package pl.edu.agh.to.lab4;
+package pl.edu.agh.to.lab4.util;
 
-import java.sql.SQLOutput;
+import pl.edu.agh.to.lab4.providers.SuspectAggregate;
+import pl.edu.agh.to.lab4.search.SearchStrategy;
+import pl.edu.agh.to.lab4.suspect.Suspect;
+
 import java.util.*;
 
 public class Finder {

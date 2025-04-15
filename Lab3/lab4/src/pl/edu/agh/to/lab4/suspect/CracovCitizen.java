@@ -1,4 +1,4 @@
-package pl.edu.agh.to.lab4;
+package pl.edu.agh.to.lab4.suspect;
 
 public class CracovCitizen extends Suspect {
 

@@ -1,4 +1,7 @@
-package pl.edu.agh.to.lab4;
+package pl.edu.agh.to.lab4.util;
+
+import pl.edu.agh.to.lab4.providers.SuspectAggregate;
+import pl.edu.agh.to.lab4.suspect.Suspect;
 
 import java.util.ArrayList;
 import java.util.Iterator;

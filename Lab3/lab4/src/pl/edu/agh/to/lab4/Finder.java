@@ -1,5 +1,6 @@
 package pl.edu.agh.to.lab4;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Finder {
@@ -10,21 +11,19 @@ public class Finder {
         this.dataSources = dataSource;
     }
 
-    public void displayAllSuspectsWithName(String name) {
-        List<Suspect> suspects = new ArrayList<>();
+    public void display(SearchStrategy strategy) {
+        Collection<Suspect> results = new ArrayList<>();
         Iterator<Suspect> iterator = dataSources.iterator();
-
-        while (iterator.hasNext() && suspects.size() < 10) {
-            Suspect s = iterator.next();
-            if (s.canBeAccused() && s.getName().equals(name)) {
-                suspects.add(s);
+        while (iterator.hasNext()) {
+            Suspect suspect = iterator.next();
+            if(suspect.canBeAccused() && strategy.filter(suspect)) {
+                results.add(suspect);
             }
         }
-
-        int t = suspects.size();
+        int t = results.size();
         System.out.println("Znalazlem " + t + " pasujacych podejrzanych!");
 
-        for (Suspect n : suspects) {
+        for (Suspect n : results) {
             System.out.println(n.display());
         }
     }

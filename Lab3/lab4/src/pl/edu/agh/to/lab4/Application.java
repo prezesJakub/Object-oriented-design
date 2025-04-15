@@ -6,8 +6,9 @@ public class Application {
         CompositeAggregate aggregate = new CompositeAggregate();
         aggregate.addAggregate(new PersonDataProvider());
         aggregate.addAggregate(new PrisonersDataProvider());
+        aggregate.addAggregate(new StudentDataProvider());
 
         Finder suspects = new Finder(aggregate);
-        suspects.displayAllSuspectsWithName("Janusz");
+        suspects.display(new NameSearchStrategy("Janusz"));
     }
 }

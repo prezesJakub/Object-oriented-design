@@ -36,7 +36,7 @@ public class FinderTest {
     public void testDisplayingNotJailedPrisoner() {
         allPrisoners.findAll().clear();
         addPrisoner("Wiezeienie stanowe", new Prisoner("Jan", "Kowalski", "802104543357", 2000, 1));
-        suspectFinder.displayAllSuspectsWithName("Jan");
+        suspectFinder.display(new NameSearchStrategy("Jan"));
         assertContentIsDisplayed("Jan Kowalski");
     }
 
@@ -44,7 +44,7 @@ public class FinderTest {
     public void testDisplayingSuspectedPerson() {
         allPersons.getAllCracovCitizens().clear();
         allPersons.getAllCracovCitizens().add(new CracovCitizen("Jan", "Kowalski", 20));
-        suspectFinder.displayAllSuspectsWithName("Jan");
+        suspectFinder.display(new NameSearchStrategy("Jan"));
         assertContentIsDisplayed("Jan Kowalski");
     }
 
@@ -52,7 +52,7 @@ public class FinderTest {
     public void testNotDisplayingTooYoungPerson() {
         allPersons.getAllCracovCitizens().clear();
         allPersons.getAllCracovCitizens().add(new CracovCitizen("Jan", "Kowalewski", 15));
-        suspectFinder.displayAllSuspectsWithName("Jan");
+        suspectFinder.display(new NameSearchStrategy("Jan"));
         assertContentIsNotDisplayed("Jan Kowalewski");
     }
 
@@ -60,7 +60,7 @@ public class FinderTest {
     public void testNotDisplayingJailedPrisoner() {
         allPrisoners.findAll().clear();
         addPrisoner("Wiezeienie stanowe", new Prisoner("Jan", "Kowalski2", "802104543357", 2000, 26));
-        suspectFinder.displayAllSuspectsWithName("Jan");
+        suspectFinder.display(new NameSearchStrategy("Jan"));
         assertContentIsNotDisplayed("Jan Kowalski2");
     }
 

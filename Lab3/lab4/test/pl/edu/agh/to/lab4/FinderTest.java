@@ -23,7 +23,14 @@ public class FinderTest {
 
     private PrisonersDataProvider allPrisoners = new PrisonersDataProvider();
 
-    private Finder suspectFinder = new Finder(allPersons, allPrisoners);
+    private Finder suspectFinder;
+
+    public FinderTest() {
+        CompositeAggregate aggregate = new CompositeAggregate();
+        aggregate.addAggregate(allPersons);
+        aggregate.addAggregate(allPrisoners);
+        this.suspectFinder = new Finder(aggregate);
+    }
 
     @Test
     public void testDisplayingNotJailedPrisoner() {

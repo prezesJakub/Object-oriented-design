@@ -4,25 +4,20 @@ import java.util.*;
 
 public class Finder {
 
-    private final List<SuspectAggregate> dataSources;
+    private final SuspectAggregate dataSources;
 
-    public Finder(SuspectAggregate... sources) {
-        this.dataSources = Arrays.asList(sources);
+    public Finder(SuspectAggregate dataSource) {
+        this.dataSources = dataSource;
     }
 
     public void displayAllSuspectsWithName(String name) {
         List<Suspect> suspects = new ArrayList<>();
+        Iterator<Suspect> iterator = dataSources.iterator();
 
-        for (SuspectAggregate source : dataSources) {
-            Iterator<Suspect> iterator = source.iterator();
-            while (iterator.hasNext() && suspects.size() < 10) {
-                Suspect s = iterator.next();
-                if (s.canBeAccused() && s.getName().equals(name)) {
-                    suspects.add(s);
-                }
-            }
-            if (suspects.size() >= 10) {
-                break;
+        while (iterator.hasNext() && suspects.size() < 10) {
+            Suspect s = iterator.next();
+            if (s.canBeAccused() && s.getName().equals(name)) {
+                suspects.add(s);
             }
         }
 

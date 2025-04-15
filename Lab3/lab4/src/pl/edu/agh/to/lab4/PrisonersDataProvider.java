@@ -1,19 +1,16 @@
 package pl.edu.agh.to.lab4;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class PrisonersDatabase {
+public class PrisonersDataProvider implements SuspectAggregate {
 
-    private final Map<String, Collection<Prisoner>> prisoners = new HashMap<String, Collection<Prisoner>>();
+    private final Map<String, Collection<Prisoner>> prisoners = new HashMap<>();
 
-    public PrisonersDatabase() {
+    public PrisonersDataProvider() {
         addPrisoner("Wiezienie krakowskie", new Prisoner("Jan", "Kowalski", "87080452357", 2005, 7));
         addPrisoner("Wiezienie krakowskie", new Prisoner("Anita", "Wiercipieta", "84080452357", 2009, 3));
         addPrisoner("Wiezienie krakowskie", new Prisoner("Janusz", "Zlowieszczy", "92080445657", 2001, 10));
-        addPrisoner("Wiezienie przedmiejskie", new Prisoner("Janusz", "Zamkniety", "802104543357", 2010, 5));
+        addPrisoner("Wiezienie przedmiejskie", new Prisoner("Janusz", "Zamkniety", "801104543357", 2010, 5));
         addPrisoner("Wiezienie przedmiejskie", new Prisoner("Adam", "Future", "880216043357", 2020, 5));
         addPrisoner("Wiezienie przedmiejskie", new Prisoner("Zbigniew", "Nienajedzony", "90051452335", 2011, 1));
         addPrisoner("Wiezienie centralne", new Prisoner("Jan", "Przedziwny", "91103145223", 2009, 4));
@@ -34,7 +31,8 @@ public class PrisonersDatabase {
         prisoners.get(category).add(prisoner);
     }
 
-    public static String render(Prisoner prisoner) {
-        return prisoner.name + " " + prisoner.surname;
+    @Override
+    public Iterator<Suspect> iterator() {
+        return new FlatIterator<>(prisoners);
     }
 }

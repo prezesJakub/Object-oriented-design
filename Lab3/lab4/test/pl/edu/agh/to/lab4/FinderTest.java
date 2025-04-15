@@ -19,14 +19,15 @@ public class FinderTest {
 
     private PrintStream originalOut;
 
-    private Collection<Person> allPersons = new ArrayList<Person>();
+    private PersonDataProvider allPersons = new PersonDataProvider();
 
-    private Map<String, Collection<Prisoner>> allPrisoners = new HashMap<String, Collection<Prisoner>>();
+    private PrisonersDataProvider allPrisoners = new PrisonersDataProvider();
 
     private Finder suspectFinder = new Finder(allPersons, allPrisoners);
 
     @Test
     public void testDisplayingNotJailedPrisoner() {
+        allPrisoners.findAll().clear();
         addPrisoner("Wiezeienie stanowe", new Prisoner("Jan", "Kowalski", "802104543357", 2000, 1));
         suspectFinder.displayAllSuspectsWithName("Jan");
         assertContentIsDisplayed("Jan Kowalski");
@@ -34,22 +35,24 @@ public class FinderTest {
 
     @Test
     public void testDisplayingSuspectedPerson() {
-        allPersons.add(new Person("Jan", "Kowalski", 20));
+        allPersons.getAllCracovCitizens().clear();
+        allPersons.getAllCracovCitizens().add(new CracovCitizen("Jan", "Kowalski", 20));
         suspectFinder.displayAllSuspectsWithName("Jan");
         assertContentIsDisplayed("Jan Kowalski");
     }
 
     @Test
     public void testNotDisplayingTooYoungPerson() {
-        allPersons.add(new Person("Jan", "Kowalski", 15));
+        allPersons.getAllCracovCitizens().clear();
+        allPersons.getAllCracovCitizens().add(new CracovCitizen("Jan", "Kowalewski", 15));
         suspectFinder.displayAllSuspectsWithName("Jan");
-        assertContentIsNotDisplayed("Jan Kowalski");
+        assertContentIsNotDisplayed("Jan Kowalewski");
     }
 
     @Test
     public void testNotDisplayingJailedPrisoner() {
-        allPersons.add(new Person("Jan", "Kowalski", 20));
-        addPrisoner("Wiezeienie stanowe", new Prisoner("Jan", "Kowalski2", "802104543357", 2000, 20));
+        allPrisoners.findAll().clear();
+        addPrisoner("Wiezeienie stanowe", new Prisoner("Jan", "Kowalski2", "802104543357", 2000, 26));
         suspectFinder.displayAllSuspectsWithName("Jan");
         assertContentIsNotDisplayed("Jan Kowalski2");
     }
@@ -75,9 +78,7 @@ public class FinderTest {
         System.setOut(originalOut);
     }
 
-    private void addPrisoner(String category, Prisoner news) {
-        if (!allPrisoners.containsKey(category))
-            allPrisoners.put(category, new ArrayList<Prisoner>());
-        allPrisoners.get(category).add(news);
+    private void addPrisoner(String category, Prisoner prisoner) {
+        allPrisoners.findAll().computeIfAbsent(category, k -> new ArrayList<>()).add(prisoner);
     }
 }

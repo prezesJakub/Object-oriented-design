@@ -4,9 +4,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class PrisonerDatabaseTest {
+public class PrisonerDataProviderTest {
 
-    private PrisonersDatabase prisonersDatabase = new PrisonersDatabase();
+    private PrisonersDataProvider prisonersDatabase = new PrisonersDataProvider();
 
     @Test
     public void testThereAreThreeJails() {

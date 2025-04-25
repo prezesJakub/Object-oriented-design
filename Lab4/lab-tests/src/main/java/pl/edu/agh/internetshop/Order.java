@@ -1,22 +1,30 @@
 package pl.edu.agh.internetshop;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 
 public class Order {
-    private static final BigDecimal TAX_VALUE = BigDecimal.valueOf(1.22);
+    private static final BigDecimal TAX_VALUE = BigDecimal.valueOf(1.23);
 	private final UUID id;
-    private final Product product;
+    private final List<Product> products;
     private boolean paid;
     private Shipment shipment;
     private ShipmentMethod shipmentMethod;
     private PaymentMethod paymentMethod;
+    private BigDecimal orderDiscount = BigDecimal.ZERO;
+    private Customer customer;
 
-    public Order(Product product) {
-        this.product = product;
+    public Order(List<Product> products) {
+        this.products = products;
         id = UUID.randomUUID();
         paid = false;
+    }
+
+    public Order(Product product) {
+        this(Collections.singletonList(product));
     }
 
     public UUID getId() {
@@ -41,20 +49,43 @@ public class Order {
         return shipment;
     }
 
+    public BigDecimal getPriceBeforeDiscount() {
+        return products.stream()
+                .map(Product::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(Product.PRICE_PRECISION, Product.ROUND_STRATEGY);
+    }
+
     public BigDecimal getPrice() {
-        return product.getPrice();
+        return products.stream()
+                .map(Product::getPriceAfterDiscount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .subtract(getOrderDiscount()
+                    .multiply(products.stream()
+                            .map(Product::getPriceAfterDiscount)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add)))
+                .setScale(Product.PRICE_PRECISION, Product.ROUND_STRATEGY);
     }
 
     public BigDecimal getPriceWithTaxes() {
-        return getPrice().multiply(TAX_VALUE).setScale(Product.PRICE_PRECISION, Product.ROUND_STRATEGY);
+        return getPrice().multiply(TAX_VALUE)
+                .setScale(Product.PRICE_PRECISION, Product.ROUND_STRATEGY);
     }
 
-    public Product getProduct() {
-        return product;
+    public List<Product> getProducts() {
+        return products;
     }
 
     public ShipmentMethod getShipmentMethod() {
         return shipmentMethod;
+    }
+
+    public BigDecimal getOrderDiscount() {
+        return orderDiscount;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public void setShipmentMethod(ShipmentMethod shipmentMethod) {
@@ -73,5 +104,13 @@ public class Order {
 
     public void setShipment(Shipment shipment) {
         this.shipment = shipment;
+    }
+
+    public void setOrderDiscount(BigDecimal orderDiscount) {
+        this.orderDiscount = orderDiscount;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

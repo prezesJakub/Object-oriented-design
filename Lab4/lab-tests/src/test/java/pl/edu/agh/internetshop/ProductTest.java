@@ -35,4 +35,17 @@ public class ProductTest {
         // then
         assertBigDecimalCompareValue(product.getPrice(), PRICE);
     }
+
+    @Test
+    public void testProductPriceAfterDiscount() {
+        //given
+        Product product = new Product("Discounted", BigDecimal.valueOf(100));
+        product.setDiscount(BigDecimal.valueOf(0.25));
+
+        //when
+        BigDecimal priceAfterDiscount = product.getPriceAfterDiscount();
+
+        //then
+        assertBigDecimalCompareValue(priceAfterDiscount, BigDecimal.valueOf(75.00));
+    }
 }

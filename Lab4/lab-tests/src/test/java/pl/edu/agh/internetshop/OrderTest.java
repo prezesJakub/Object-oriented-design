@@ -3,6 +3,8 @@ package pl.edu.agh.internetshop;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
@@ -18,16 +20,19 @@ public class OrderTest {
 	}
 
 	@Test
-	public void testGetProductThroughOrder() {
+	public void testGetProductsThroughOrder() {
 		// given
-		Product expectedProduct = mock(Product.class);
-		Order order = new Order(expectedProduct);
+		Product product1 = mock(Product.class);
+		Product product2 = mock(Product.class);
+		List<Product> productList = Arrays.asList(product1, product2);
+		Order order = new Order(productList);
 
 		// when
-		Product actualProduct = order.getProduct();
+		List<Product> resultProducts = order.getProducts();
 
 		// then
-		assertSame(expectedProduct, actualProduct);
+		assertTrue(resultProducts.contains(product1));
+		assertTrue(resultProducts.contains(product2));
 	}
 
 	@Test
@@ -59,12 +64,11 @@ public class OrderTest {
 		// given
 		BigDecimal expectedProductPrice = BigDecimal.valueOf(1000);
 		Product product = mock(Product.class);
-		given(product.getPrice()).willReturn(expectedProductPrice);
+		given(product.getPriceAfterDiscount()).willReturn(expectedProductPrice);
 		Order order = new Order(product);
 
 		// when
 		BigDecimal actualProductPrice = order.getPrice();
-
 		// then
 		assertBigDecimalCompareValue(expectedProductPrice, actualProductPrice);
 	}
@@ -73,6 +77,7 @@ public class OrderTest {
 		BigDecimal productPrice = BigDecimal.valueOf(productPriceValue);
 		Product product = mock(Product.class);
 		given(product.getPrice()).willReturn(productPrice);
+		given(product.getPriceAfterDiscount()).willReturn(productPrice);
 		return new Order(product);
 	}
 
@@ -84,7 +89,7 @@ public class OrderTest {
 		Order order = getOrderWithCertainProductPrice(2); // 2 PLN
 
 		// then
-		assertBigDecimalCompareValue(order.getPriceWithTaxes(), BigDecimal.valueOf(2.44)); // 2.44 PLN
+		assertBigDecimalCompareValue(order.getPriceWithTaxes(), BigDecimal.valueOf(2.46)); // 2.46 PLN
 	}
 
 	@Test
@@ -204,5 +209,22 @@ public class OrderTest {
 
 		// then
 		assertFalse(order.isPaid());
+	}
+
+	@Test
+	public void testOrderPriceWithProductAndOrderDiscount() {
+		//given
+		Product product1 = new Product("Product1", BigDecimal.valueOf(200));
+		Product product2 = new Product("Product2", BigDecimal.valueOf(100));
+		product1.setDiscount(BigDecimal.valueOf(0.10));
+		product2.setDiscount(BigDecimal.valueOf(0.20));
+		Order order = new Order(Arrays.asList(product1, product2));
+		order.setOrderDiscount(BigDecimal.valueOf(0.10));
+
+		//when
+		BigDecimal finalPrice = order.getPrice();
+
+		//then
+		assertBigDecimalCompareValue(finalPrice, BigDecimal.valueOf(234.00));
 	}
 }

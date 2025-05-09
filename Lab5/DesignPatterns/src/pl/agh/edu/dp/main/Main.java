@@ -9,9 +9,9 @@ public class Main {
         MazeGame mazeGame = new MazeGame();
         MazeBuilder builder = new StandardMazeBuilder();
 
-        MazeFactory normalFactory = new MazeFactory();
-        MazeFactory enchantedFactory = new EnchantedMazeFactory();
-        MazeFactory bombedFactory = new BombedMazeFactory();
+        MazeFactory normalFactory = MazeFactory.getInstance();
+        MazeFactory enchantedFactory = EnchantedMazeFactory.getInstance();
+        MazeFactory bombedFactory = BombedMazeFactory.getInstance();
 
         Maze normalMaze = mazeGame.createMaze(normalFactory);
         Maze enchantedMaze = mazeGame.createMaze(enchantedFactory);

@@ -1,6 +1,18 @@
 package pl.agh.edu.dp.labirynth;
 
 public class MazeFactory {
+    private static MazeFactory instance;
+
+    protected MazeFactory() {
+    }
+
+    public static MazeFactory getInstance() {
+        if (instance == null) {
+            instance = new MazeFactory();
+        }
+        return instance;
+    }
+
     public Maze makeMaze() {
         return new Maze();
     }

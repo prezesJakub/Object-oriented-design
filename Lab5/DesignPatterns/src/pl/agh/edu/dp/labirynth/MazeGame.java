@@ -8,4 +8,17 @@ public class MazeGame {
         builder.buildDoor(1, 2);
         return builder.getMaze();
     }
+
+    public Maze createMaze(MazeFactory factory) {
+        Maze maze = factory.makeMaze();
+
+        Room r1 = factory.makeRoom(1);
+        Room r2 = factory.makeRoom(2);
+        factory.makeDoor(r1, r2, Direction.East);
+
+        maze.addRoom(r1);
+        maze.addRoom(r2);
+
+        return maze;
+    }
 }

@@ -9,9 +9,21 @@ public class Main {
         MazeGame mazeGame = new MazeGame();
         MazeBuilder builder = new StandardMazeBuilder();
 
+        MazeFactory normalFactory = new MazeFactory();
+        MazeFactory enchantedFactory = new EnchantedMazeFactory();
+        MazeFactory bombedFactory = new BombedMazeFactory();
+
+        Maze normalMaze = mazeGame.createMaze(normalFactory);
+        Maze enchantedMaze = mazeGame.createMaze(enchantedFactory);
+        Maze bombedMaze = mazeGame.createMaze(bombedFactory);
+
         Maze maze = mazeGame.createMaze(builder);
 
         System.out.println(maze.getRoomNumbers());
+
+        System.out.println("Normal maze rooms: " + normalMaze.getRoomNumbers());
+        System.out.println("Magic maze rooms: " + enchantedMaze.getRoomNumbers());
+        System.out.println("Bombed maze rooms: " + bombedMaze.getRoomNumbers());
 
         CountingMazeBuilder countingBuilder = new CountingMazeBuilder();
         MazeGame game = new MazeGame();

@@ -21,4 +21,8 @@ public class Maze {
     {
         return rooms.size();
     }
+
+    public Vector<Room> getRooms() {
+        return rooms;
+    }
 }

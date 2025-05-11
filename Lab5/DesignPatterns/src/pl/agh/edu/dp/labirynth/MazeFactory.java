@@ -13,10 +13,6 @@ public class MazeFactory {
         return instance;
     }
 
-    public Maze makeMaze() {
-        return new Maze();
-    }
-
     public Room makeRoom(int number) {
         Room room = new Room(number);
         room.setSide(Direction.South, makeWall());

@@ -1,6 +1,4 @@
-package pl.agh.edu.dp;
-
-import pl.agh.edu.dp.labirynth.MazeBuilder;
+package pl.agh.edu.dp.labirynth;
 
 public class CountingMazeBuilder extends MazeBuilder {
     private int rooms = 0;
@@ -12,7 +10,7 @@ public class CountingMazeBuilder extends MazeBuilder {
     }
 
     @Override
-    public void buildDoor(int roomFrom, int roomTo) {
+    public void buildDoor(int roomFrom, int roomTo, Direction direction) {
         doors++;
     }
 

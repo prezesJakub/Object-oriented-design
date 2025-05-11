@@ -1,11 +1,16 @@
 package pl.agh.edu.dp.main;
 
-import pl.agh.edu.dp.CountingMazeBuilder;
+import pl.agh.edu.dp.labirynth.CountingMazeBuilder;
 import pl.agh.edu.dp.labirynth.*;
 
 public class Main {
 
     public static void main(String[] args) {
+      //  test();
+        playGame();
+    }
+
+    private static void test() {
         MazeGame mazeGame = new MazeGame();
         MazeBuilder builder = new StandardMazeBuilder();
 
@@ -30,7 +35,22 @@ public class Main {
         game.createMaze(countingBuilder);
         System.out.println(countingBuilder.getCounts());
     }
+
+    private static void playGame() {
+        StandardMazeBuilder builder = new StandardMazeBuilder();
+        builder.startMaze();
+
+        builder.buildRoom(1);
+        builder.buildRoom(2);
+        builder.buildRoom(3);
+        builder.buildBombedRoom(4);
+        builder.buildDoor(1, 2, Direction.East);
+        builder.buildDoor(2, 3, Direction.South);
+        builder.buildDoor(3, 4, Direction.South);
+
+        MazeGame game = new MazeGame();
+        Maze maze = game.createMaze(builder);
+        game.setMaze(maze);
+        game.play();
+    }
 }
-
-
-

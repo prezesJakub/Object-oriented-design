@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Vector;
 
 public class Maze {
-    private Vector<Room> rooms;
+    private List<Room> rooms;
 
-    public Maze() {
-        this.rooms = new Vector<Room>();
+    public Maze(List<Room> rooms) {
+        this.rooms = rooms;
     }
 
     public void addRoom(Room room){
@@ -18,12 +18,11 @@ public class Maze {
         this.rooms = rooms;
     }
 
-    public int getRoomNumbers()
-    {
+    public int getRoomNumbers() {
         return rooms.size();
     }
 
-    public Vector<Room> getRooms() {
+    public List<Room> getRooms() {
         return rooms;
     }
 }

@@ -30,4 +30,8 @@ public class Door extends MapSite {
     public void setRoom2(Room room2) {
         this.room2 = room2;
     }
+
+    public Room getAnotherRoom(Room room) {
+        return (room1 != room) ? room1 : room2;
+    }
 }

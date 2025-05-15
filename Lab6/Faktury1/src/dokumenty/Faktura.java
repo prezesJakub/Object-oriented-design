@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Date;
 
 import magazyn.Towar;
+import rabaty.ObliczCenePoRabacie;
 
 
 public class Faktura {
@@ -11,16 +12,25 @@ public class Faktura {
 	String kontrahent;
 	ArrayList<Pozycja> pozycje;
 	double suma;
+	private ObliczCenePoRabacie obliczanieRabatu;
+
 	public Faktura(Date dataSprzedazy,String kontrahent)
 	{
 		this.dataSprzedazy=dataSprzedazy;
 		this.kontrahent=kontrahent;
 		pozycje=new ArrayList<Pozycja>();
 		suma=0;
+		this.obliczanieRabatu = konfiguracja.Konfiguracja.getInstancja().getStrategiaRabatu();
 	}
 	public void dodajPozycje(Towar towar, double ilosc)
 	{
-		pozycje.add(new Pozycja(towar,ilosc));
+		double cenaZRabatem = towar.getCena();
+		if(obliczanieRabatu != null) {
+			cenaZRabatem = obliczanieRabatu.obliczCenePoRabacie(cenaZRabatem);
+		}
+		Pozycja p = new Pozycja(towar, ilosc);
+		p.setCena(cenaZRabatem);
+		pozycje.add(p);
 		this.przeliczSume();
 	}
 	public double getSuma()
@@ -52,6 +62,8 @@ public class Faktura {
 	{
 		return this.kontrahent;
 	}
-	
-	
+
+	public void setStrategiaRabatu(ObliczCenePoRabacie strategia) {
+		this.obliczanieRabatu = strategia;
+	}
 }
